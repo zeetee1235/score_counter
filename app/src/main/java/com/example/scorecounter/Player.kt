@@ -1,0 +1,6 @@
+package com.example.scorecounter
+
+data class Player(
+    var name: String,
+    var score: Int = 0
+)
