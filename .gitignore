@@ -33,3 +33,6 @@ captures/
 # OS
 .DS_Store
 Thumbs.db
+ 
+# Large downloads (do not commit)
+commandlinetools-*.zip
