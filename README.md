@@ -45,3 +45,8 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 ---
 
 이 앱은 Kotlin, MVVM, Jetpack Compose를 사용합니다.
+
+## 업데이트 내역
+
+0.0.1 : 점수 즉시 반영 수정
+0.0.2 : 빠른 증감, ui 개선, 순서 변경, 순위 표기
