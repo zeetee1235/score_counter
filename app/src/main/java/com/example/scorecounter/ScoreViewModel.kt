@@ -30,8 +30,31 @@ class ScoreViewModel : ViewModel() {
         _players.value = _players.value
     }
 
+    fun setScore(index: Int, newScore: Int) {
+        _players.value?.get(index)?.let {
+            it.score = newScore
+        }
+        _players.value = _players.value
+    }
+
     fun resetScores() {
         _players.value?.forEach { it.score = 0 }
         _players.value = _players.value
+    }
+
+    fun movePlayerUp(index: Int) {
+        val list = _players.value ?: return
+        if (index > 0 && index < list.size) {
+            java.util.Collections.swap(list, index, index - 1)
+            _players.value = list
+        }
+    }
+
+    fun movePlayerDown(index: Int) {
+        val list = _players.value ?: return
+        if (index >= 0 && index < list.size - 1) {
+            java.util.Collections.swap(list, index, index + 1)
+            _players.value = list
+        }
     }
 }

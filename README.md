@@ -10,8 +10,32 @@
 
 ## 빌드 방법
 
+### 스크립트로 한 번에 빌드 (권장)
+
+1. 최초 한 번 실행 권한 부여
+
+```bash
+chmod +x ./build_apk.sh
+```
+
+1. APK 빌드
+
+```bash
+./build_apk.sh
+```
+
+성공 시 생성 위치: `app/build/outputs/apk/debug/app-debug.apk`
+
+ADB로 설치(선택):
+
+```bash
+adb install -r app/build/outputs/apk/debug/app-debug.apk
+```
+
+### Android Studio에서 빌드
+
 1. Android Studio에서 프로젝트를 엽니다.
-2. Gradle Sync 후 실행합니다.
+2. Gradle Sync 후 실행하거나, Build > Build APK(s) 메뉴를 사용합니다.
 
 ## 폴더 구조
 
