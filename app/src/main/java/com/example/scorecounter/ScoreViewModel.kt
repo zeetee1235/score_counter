@@ -5,56 +5,42 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class ScoreViewModel : ViewModel() {
-    private val _players = MutableLiveData<MutableList<Player>>(mutableListOf())
-    val players: LiveData<MutableList<Player>> = _players
+    private val _players = MutableLiveData<List<Player>>(emptyList())
+    val players: LiveData<List<Player>> = _players
 
-    fun addPlayer(name: String) {
-        _players.value?.add(Player(name))
-        _players.value = _players.value
+    private inline fun update(block: (MutableList<Player>) -> Unit) {
+        val next = _players.value?.toMutableList() ?: mutableListOf()
+        block(next)
+        _players.value = next
     }
 
-    fun removePlayer(index: Int) {
-        _players.value?.removeAt(index)
-        _players.value = _players.value
+    fun addPlayer(name: String) = update { it.add(Player(name)) }
+
+    fun removePlayer(index: Int) = update { list ->
+        if (index in list.indices) list.removeAt(index)
     }
 
-    fun updatePlayerName(index: Int, newName: String) {
-        _players.value?.get(index)?.name = newName
-        _players.value = _players.value
+    fun updatePlayerName(index: Int, newName: String) = update { list ->
+        if (index in list.indices) list[index] = list[index].copy(name = newName)
     }
 
-    fun changeScore(index: Int, delta: Int) {
-        _players.value?.get(index)?.let {
-            it.score += delta
-        }
-        _players.value = _players.value
+    fun changeScore(index: Int, delta: Int) = update { list ->
+        if (index in list.indices) list[index] = list[index].copy(score = list[index].score + delta)
     }
 
-    fun setScore(index: Int, newScore: Int) {
-        _players.value?.get(index)?.let {
-            it.score = newScore
-        }
-        _players.value = _players.value
+    fun setScore(index: Int, newScore: Int) = update { list ->
+        if (index in list.indices) list[index] = list[index].copy(score = newScore)
     }
 
-    fun resetScores() {
-        _players.value?.forEach { it.score = 0 }
-        _players.value = _players.value
+    fun resetScores() = update { list ->
+        for (i in list.indices) list[i] = list[i].copy(score = 0)
     }
 
-    fun movePlayerUp(index: Int) {
-        val list = _players.value ?: return
-        if (index > 0 && index < list.size) {
-            java.util.Collections.swap(list, index, index - 1)
-            _players.value = list
-        }
+    fun movePlayerUp(index: Int) = update { list ->
+        if (index > 0 && index < list.size) java.util.Collections.swap(list, index, index - 1)
     }
 
-    fun movePlayerDown(index: Int) {
-        val list = _players.value ?: return
-        if (index >= 0 && index < list.size - 1) {
-            java.util.Collections.swap(list, index, index + 1)
-            _players.value = list
-        }
+    fun movePlayerDown(index: Int) = update { list ->
+        if (index >= 0 && index < list.size - 1) java.util.Collections.swap(list, index, index + 1)
     }
 }

@@ -50,7 +50,7 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScoreCounterScreen(viewModel: ScoreViewModel) {
-    val players by viewModel.players.observeAsState(mutableListOf())
+    val players by viewModel.players.observeAsState(emptyList())
     var showAddDialog by rememberSaveable { mutableStateOf(false) }
     var newPlayerName by rememberSaveable { mutableStateOf("") }
 
